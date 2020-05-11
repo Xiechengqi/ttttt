@@ -1,0 +1,39 @@
+name: url_update
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: test
+      env:
+        token_Private_Keys: ${{ secrets.token_Private_Keys }}
+      run: |
+        sudo cp ./sources.list /etc/apt/
+        sudo apt update -y
+        sudo apt upgrade -y
+        echo "hellohellohello" >> index.html
+        git config --global user.email 'Xiechengqi01@gmail.com' 
+        git config --global user.name 'Xiechengqi' 
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.token_Private_Keys }}" > ~/.ssh/id_rsa 
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan gitee.com >> ~/.ssh/known_hosts
+        ssh-keyscan e.coding.net >> ~/.ssh/known_hosts
+        git log --pretty=format:"%s from Github Actions at `date +"%Y-%m-%d %H:%M:%S"`" --date=short -n 1  > commit-message.log
+        git clone git@$github.com:Xiechengqi/ttttt.git .test
+        cd .test
+        git checkout -b master
+        cd ../
+        \cp -rf ./* ./.test/
+        cd .gitee_blog
+        git add .
+        git commit -F ../commit-message.log
+        git push --force --quiet "git@github.com:Xiechengqi/ttttt.git" master:master
