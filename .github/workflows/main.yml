@@ -10,7 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout 
+      uses: actions/checkout@v2
       
     - name: test
       env:
@@ -27,7 +28,6 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
         ssh -T git@github.com
-
         git log --pretty=format:"%s from Github Actions at `date +"%Y-%m-%d %H:%M:%S"`" --date=short -n 1  > commit-message.log
         git clone git@github.com:Xiechengqi/ttttt.git .test
         cd .test
