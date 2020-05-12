@@ -25,11 +25,11 @@ jobs:
         mkdir -p ~/.ssh/
         echo "${{ secrets.token_Private_Keys }}" > ~/.ssh/id_rsa 
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
         ssh -T git@github.com
 
         git log --pretty=format:"%s from Github Actions at `date +"%Y-%m-%d %H:%M:%S"`" --date=short -n 1  > commit-message.log
-        git clone git@$github.com:Xiechengqi/ttttt.git .test
+        git clone git@github.com:Xiechengqi/ttttt.git .test
         cd .test
         git checkout -b master
         cd ../
