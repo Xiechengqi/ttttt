@@ -34,7 +34,7 @@ jobs:
         git checkout -b master
         cd ../
         \cp -rf ./* ./.test/
-        cd .gitee_blog
+        cd .test
         git add .
         git commit -F ../commit-message.log
         git push --force --quiet "git@github.com:Xiechengqi/ttttt.git" master:master
